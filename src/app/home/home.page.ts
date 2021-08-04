@@ -9,6 +9,8 @@ import jsQR from 'jsqr';
 export class HomePage {
   @ViewChild('video', { static: false })
   private _video: ElementRef | undefined;
+  @ViewChild('canvas', { static: false })
+  private _canvas: ElementRef | undefined;
 
   constructor() { }
 
