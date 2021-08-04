@@ -36,6 +36,8 @@ export class HomePage implements AfterViewInit {
     }
   }
 
-  ngAfterViewInit() { }
+  ngAfterViewInit() {
+    this._canvasElement = this._canvas?.nativeElement;
+  }
 
 }
