@@ -29,6 +29,10 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this._beforeinstallpromptUnlistener) {
       this._beforeinstallpromptUnlistener();
     }
+
+    if (this._appinstalledUnlistener) {
+      this._appinstalledUnlistener();
+    }
   }
 
   ngOnInit() {
