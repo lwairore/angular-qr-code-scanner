@@ -84,6 +84,21 @@ export class HomePage implements AfterViewInit {
     requestAnimationFrame(this._scan.bind(this));
   }
 
+  private _causeVibration() {
+    let newVariable: any;
+    newVariable = window?.navigator;
+
+    newVariable.vibrate = navigator.vibrate ||
+      newVariable.webkitVibrate ||
+      newVariable.mozVibrate ||
+      newVariable.msVibrate;
+
+    if (newVariable.vibrate) {
+      // single vibration. duration of vibration in ms
+      newVariable.vibrate(100);
+    }
+  }
+
   private async _scan() {
     if (this._videoElement.readyState === this._videoElement.HAVE_ENOUGH_DATA) {
       if (this._loading) {
@@ -115,18 +130,7 @@ export class HomePage implements AfterViewInit {
       if (code) {
         this.scanActive = false;
         this.scanResult = code.data;
-        let newVariable: any;
-        newVariable = window?.navigator;
-
-        newVariable.vibrate = navigator.vibrate ||
-          newVariable.webkitVibrate ||
-          newVariable.mozVibrate ||
-          newVariable.msVibrate;
-
-        if (newVariable.vibrate) {
-          // single vibration. duration of vibration in ms
-          newVariable.vibrate(100);
-        }
+        this._causeVibration();
         this._showQrToast();
       } else {
         if (this.scanActive) {
@@ -140,5 +144,30 @@ export class HomePage implements AfterViewInit {
 
   captureImage() {
     this._fileinput?.nativeElement.click();
+  }
+
+  handleFile(files: FileList) {
+    const file = files.item(0);
+
+    var img = new Image();
+    img.onload = () => {
+      this._canvasContext.drawImage(img, 0, 0, this._canvasElement.width, this._canvasElement.height);
+      const imageData = this._canvasContext.getImageData(
+        0,
+        0,
+        this._canvasElement.width,
+        this._canvasElement.height
+      );
+      const code = jsQR(imageData.data, imageData.width, imageData.height, {
+        inversionAttempts: 'dontInvert'
+      });
+
+      if (code) {
+        this.scanResult = code.data;
+        this._causeVibration()
+        this._showQrToast();
+      }
+    };
+    img.src = URL.createObjectURL(file);
   }
 }
