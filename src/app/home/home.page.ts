@@ -138,5 +138,7 @@ export class HomePage implements AfterViewInit {
     }
   }
 
-
+  captureImage() {
+    this._fileinput?.nativeElement.click();
+  }
 }
