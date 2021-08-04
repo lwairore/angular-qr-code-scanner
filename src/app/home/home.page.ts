@@ -22,6 +22,8 @@ export class HomePage implements AfterViewInit {
   scanResult: any;
   private _loading: HTMLIonLoadingElement | null = null;
 
+  private _imgObjectURLs: string[] = [];
+
 
   constructor(
     private _toastCtrl: ToastController,
