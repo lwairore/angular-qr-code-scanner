@@ -24,8 +24,15 @@
     Reset
   </ion-button>
 
-  <!-- Shows our camera stream -->
-  <video #video [hidden]="!scanActive" width="100%"></video>
+
+  <ion-row class="ion-align-items-center">
+    <ion-col size="2"></ion-col>
+    <ion-col size="8">
+      <!-- Shows our camera stream -->
+      <video #video [hidden]="!scanActive" width="100%"></video>
+    </ion-col>
+    <ion-col size="2"></ion-col>
+  </ion-row>
 
   <!-- Used to render the camera stream images -->
   <canvas #canvas hidden></canvas>
