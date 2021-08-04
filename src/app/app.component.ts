@@ -30,6 +30,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this._offlineEventUnlistener = this._renderer2.listen('window', 'offline', () =>
       this._displayNetworkStatus());
+
+    this._beforeinstallpromptUnlistener = this._renderer2
+      .listen('window', 'beforeinstallprompt', (event) => this.promptEvent = event);
   }
 
   private _displayNetworkStatus() {
