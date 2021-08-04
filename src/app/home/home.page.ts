@@ -117,6 +117,7 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
           }
         }
       ],
+      backdropDismiss: false
     });
     await alert.present();
   }
