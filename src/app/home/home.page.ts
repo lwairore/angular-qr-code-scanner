@@ -77,6 +77,7 @@ export class HomePage implements AfterViewInit, OnDestroy {
   }
 
   async startScan() {
+    this._resetFailedToReadQRCode();
     // Not working on iOS standalone mode!
     const stream = await navigator.mediaDevices.getUserMedia({
       video: { facingMode: 'environment' }
@@ -136,7 +137,7 @@ export class HomePage implements AfterViewInit, OnDestroy {
         inversionAttempts: 'dontInvert'
       });
 
-      if (code) {
+      if (code && code?.data?.trim()?.length) {
         this._resetFailedToReadQRCode();
         this.scanActive = false;
         this.scanResult = code.data;
@@ -182,7 +183,7 @@ export class HomePage implements AfterViewInit, OnDestroy {
         inversionAttempts: 'dontInvert'
       });
 
-      if (code) {
+      if (code && code?.data?.trim()?.length) {
         this._resetFailedToReadQRCode();
         this.scanResult = code.data;
         this._causeVibration()
