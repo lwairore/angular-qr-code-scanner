@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { LoadingController, Platform, ToastController } from '@ionic/angular';
+import { AlertController, LoadingController, Platform, ToastController } from '@ionic/angular';
 import jsQR from 'jsqr';
 
 @Component({
@@ -39,7 +39,8 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
     private _loadingCtrl: LoadingController,
     private _plt: Platform,
     @Inject(DOCUMENT) private document: Document,
-    private _renderer2: Renderer2
+    private _renderer2: Renderer2,
+    private _alertCtrl: AlertController
   ) {
     const isInStandaloneMode = () =>
       'standalone' in window.navigator && (window.navigator as any)?.standalone;
