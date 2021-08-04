@@ -4,6 +4,10 @@ import { SwUpdate } from '@angular/service-worker';
 import { AlertController, LoadingController, Platform, ToastController } from '@ionic/angular';
 import jsQR from 'jsqr';
 
+interface HTMLInputEvent extends Event {
+  target: HTMLInputElement & EventTarget;
+}
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -257,8 +261,10 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
     this.failedToReadQRCode = false;
   }
 
-  handleFile(files: FileList) {
-    const file = files.item(0);
+  handleFile(event: any) {
+    let file: any = <HTMLInputEvent>event.target.files
+    if (!file?.length) { return; }
+    file = file[0];
 
     var img = new Image();
     img.onload = () => {

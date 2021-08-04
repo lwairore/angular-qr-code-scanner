@@ -6,7 +6,7 @@
 
 <ion-content>
   <!-- Fallback for iOS PWA -->
-  <input #fileinput type="file" accept="image/*;capture=camera" hidden (change)="handleFile($event.target.files)">
+  <input #fileinput type="file" accept="image/*;capture=camera" hidden (change)="handleFile($event)">
 
   <!-- Trigger the file input -->
   <ion-button expand="full" (click)="captureImage()">
