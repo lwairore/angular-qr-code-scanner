@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { ToastController } from '@ionic/angular';
+import { LoadingController, ToastController } from '@ionic/angular';
 import jsQR from 'jsqr';
 
 @Component({
@@ -25,6 +25,7 @@ export class HomePage {
 
   constructor(
     private toastCtrl: ToastController,
+    private _loadingCtrl: LoadingController,
   ) { }
 
 }
