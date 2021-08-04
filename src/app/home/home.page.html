@@ -36,12 +36,19 @@
     Stop scan
   </ion-button>
 
-  <ion-card *ngIf="scanResult">
+  <ion-card *ngIf="scanResult || failedToReadQRCode">
     <ion-card-header>
       <ion-card-title>QR Code</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      {{ scanResult }}
+      <ng-container *ngIf="scanResult; else failedToReadQRCodeSection;">
+        {{ scanResult }}
+      </ng-container>
+      <ng-template #failedToReadQRCodeSection>
+        <span [style.color]="'#eb445a'">
+          <ion-icon slot="start" name="warning"></ion-icon> Failed to read QR Code from image.
+        </span>
+      </ng-template>
     </ion-card-content>
   </ion-card>
 
