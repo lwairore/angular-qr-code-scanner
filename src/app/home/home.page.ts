@@ -1,4 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import { ToastController } from '@ionic/angular';
 import jsQR from 'jsqr';
 
 @Component({
@@ -22,6 +23,8 @@ export class HomePage {
   private _loading: HTMLIonLoadingElement | null = null;
 
 
-  constructor() { }
+  constructor(
+    private toastCtrl: ToastController,
+  ) { }
 
 }
