@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { LoadingController, Platform, ToastController } from '@ionic/angular';
 import jsQR from 'jsqr';
 
@@ -7,7 +7,7 @@ import jsQR from 'jsqr';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements AfterViewInit {
   @ViewChild('video', { static: false })
   private _video: ElementRef | undefined;
   @ViewChild('canvas', { static: false })
@@ -35,5 +35,7 @@ export class HomePage {
       // E.g. hide the scan functionality!
     }
   }
+
+  ngAfterViewInit() { }
 
 }
