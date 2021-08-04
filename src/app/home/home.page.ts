@@ -24,7 +24,7 @@ export class HomePage {
 
 
   constructor(
-    private toastCtrl: ToastController,
+    private _toastCtrl: ToastController,
     private _loadingCtrl: LoadingController,
   ) { }
 
