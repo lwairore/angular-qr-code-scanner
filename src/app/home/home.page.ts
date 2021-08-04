@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import jsQR from 'jsqr';
 
 @Component({
@@ -7,6 +7,8 @@ import jsQR from 'jsqr';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+  @ViewChild('video', { static: false })
+  private _video: ElementRef | undefined;
 
   constructor() { }
 
