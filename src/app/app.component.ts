@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -7,7 +7,9 @@ import { Component, Inject, OnInit } from '@angular/core';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  constructor(@Inject(DOCUMENT) private document: Document,) { }
+  constructor(
+    @Inject(DOCUMENT) private document: Document,
+    private renderer2: Renderer2) { }
 
   ngOnInit() { }
 }
