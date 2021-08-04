@@ -41,7 +41,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this._beforeinstallpromptUnlistener = this._renderer2
       .listen('window', 'beforeinstallprompt', (event) => this.promptEvent = event);
 
-    this._beforeinstallpromptUnlistener = this._renderer2
+    this._appinstalledUnlistener = this._renderer2
       .listen('window', 'appinstalled', (event) => this.promptEvent = undefined);
   }
 
