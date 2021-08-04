@@ -136,6 +136,7 @@ export class HomePage implements AfterViewInit, OnDestroy {
       });
 
       if (code) {
+        this._resetFailedToReadQRCode();
         this.scanActive = false;
         this.scanResult = code.data;
         this._causeVibration();
@@ -160,6 +161,10 @@ export class HomePage implements AfterViewInit, OnDestroy {
     this._fileinput?.nativeElement.click();
   }
 
+  private _resetFailedToReadQRCode() {
+    this.failedToReadQRCode = false;
+  }
+
   handleFile(files: FileList) {
     const file = files.item(0);
 
@@ -177,6 +182,7 @@ export class HomePage implements AfterViewInit, OnDestroy {
       });
 
       if (code) {
+        this._resetFailedToReadQRCode();
         this.scanResult = code.data;
         this._causeVibration()
         this._showQrToast();
