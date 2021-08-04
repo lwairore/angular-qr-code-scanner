@@ -39,6 +39,7 @@ export class HomePage implements AfterViewInit {
   ngAfterViewInit() {
     this._canvasElement = this._canvas?.nativeElement;
     this._canvasContext = this._canvasElement.getContext('2d');
+    this._videoElement = this._video?.nativeElement;
   }
 
 }
