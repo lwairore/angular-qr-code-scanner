@@ -59,4 +59,7 @@
     </ion-card-content>
   </ion-card>
 
+  <ion-button expand="block" color="dark" *ngIf="promptEvent" (click)="installPwa()">
+    <ion-icon name="download"></ion-icon> Install App
+  </ion-button>
 </ion-content>
