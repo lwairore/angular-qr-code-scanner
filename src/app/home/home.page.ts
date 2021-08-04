@@ -84,5 +84,59 @@ export class HomePage implements AfterViewInit {
     requestAnimationFrame(this._scan.bind(this));
   }
 
+  private async _scan() {
+    if (this._videoElement.readyState === this._videoElement.HAVE_ENOUGH_DATA) {
+      if (this._loading) {
+        await this._loading.dismiss();
+        this._loading = null;
+        this.scanActive = true;
+      }
+
+      this._canvasElement.height = this._videoElement.videoHeight;
+      this._canvasElement.width = this._videoElement.videoWidth;
+
+      this._canvasContext.drawImage(
+        this._videoElement,
+        0,
+        0,
+        this._canvasElement.width,
+        this._canvasElement.height
+      );
+      const imageData = this._canvasContext.getImageData(
+        0,
+        0,
+        this._canvasElement.width,
+        this._canvasElement.height
+      );
+      const code = jsQR(imageData.data, imageData.width, imageData.height, {
+        inversionAttempts: 'dontInvert'
+      });
+
+      if (code) {
+        this.scanActive = false;
+        this.scanResult = code.data;
+        let newVariable: any;
+        newVariable = window?.navigator;
+
+        newVariable.vibrate = navigator.vibrate ||
+          newVariable.webkitVibrate ||
+          newVariable.mozVibrate ||
+          newVariable.msVibrate;
+
+        if (newVariable.vibrate) {
+          // single vibration. duration of vibration in ms
+          newVariable.vibrate(100);
+        }
+        this._showQrToast();
+      } else {
+        if (this.scanActive) {
+          requestAnimationFrame(this._scan.bind(this));
+        }
+      }
+    } else {
+      requestAnimationFrame(this._scan.bind(this));
+    }
+  }
+
 
 }
