@@ -1,7 +1,7 @@
 {
   "name": "Scan QR Code",
   "short_name": "Scan QR Code",
-  "theme_color": "#1976d2",
+  "theme_color": "#3880ff",
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "./",
