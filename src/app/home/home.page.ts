@@ -24,6 +24,8 @@ export class HomePage implements AfterViewInit, OnDestroy {
 
   private _imgObjectURLs: string[] = [];
 
+  failedToReadQRCode = false;
+
 
   constructor(
     private _toastCtrl: ToastController,
@@ -172,6 +174,9 @@ export class HomePage implements AfterViewInit, OnDestroy {
         this.scanResult = code.data;
         this._causeVibration()
         this._showQrToast();
+      } else {
+        this.failedToReadQRCode = true;
+        this.scanResult = null;
       }
     };
     this._revokeObjectURLs();
