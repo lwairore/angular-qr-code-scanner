@@ -7,6 +7,8 @@ import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  private _onlineEventUnlistener: (() => void) | undefined;
+
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private _renderer2: Renderer2) { }
