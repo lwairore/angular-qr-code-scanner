@@ -141,6 +141,7 @@ export class HomePage implements AfterViewInit, OnDestroy {
         this._causeVibration();
         this._showQrToast();
       } else {
+        this._notifyUserFailedToReadQRCode();
         if (this.scanActive) {
           requestAnimationFrame(this._scan.bind(this));
         }
@@ -148,6 +149,11 @@ export class HomePage implements AfterViewInit, OnDestroy {
     } else {
       requestAnimationFrame(this._scan.bind(this));
     }
+  }
+
+  private _notifyUserFailedToReadQRCode() {
+    this.failedToReadQRCode = true;
+    this.scanResult = null;
   }
 
   captureImage() {
@@ -175,8 +181,7 @@ export class HomePage implements AfterViewInit, OnDestroy {
         this._causeVibration()
         this._showQrToast();
       } else {
-        this.failedToReadQRCode = true;
-        this.scanResult = null;
+        this._notifyUserFailedToReadQRCode();
       }
     };
     this._revokeObjectURLs();
