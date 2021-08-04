@@ -17,4 +17,14 @@ export class AppComponent implements OnInit {
     this._onlineEventUnlistener = this._renderer2.listen('window', 'online', () =>
       this._displayNetworkStatus());
   }
+
+  private _displayNetworkStatus() {
+    if (navigator.onLine) {
+      this._renderer2.setStyle(
+        this.document.body, 'filter', '');
+    } else {
+      this._renderer2.setStyle(
+        this.document.body, 'filter', 'grayscale(1)');
+    }
+  }
 }
