@@ -17,6 +17,7 @@ export class HomePage {
   private _canvasElement: any;
   private _videoElement: any;
   private _canvasContext: any;
+  scanActive = false;
 
   constructor() { }
 
