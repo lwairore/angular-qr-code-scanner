@@ -19,7 +19,7 @@ export class HomePage {
   private _canvasContext: any;
   scanActive = false;
   scanResult: any;
-  loading: HTMLIonLoadingElement | null = null;
+  private _loading: HTMLIonLoadingElement | null = null;
 
 
   constructor() { }
