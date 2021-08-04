@@ -171,5 +171,6 @@ export class HomePage implements AfterViewInit {
       }
     };
     img.src = URL.createObjectURL(file);
+    this._imgObjectURLs.push(img.src);
   }
 }
