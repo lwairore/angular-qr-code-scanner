@@ -38,7 +38,9 @@ export class HomePage implements AfterViewInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() { }
+  ngOnDestroy() {
+    this._revokeObjectURLs();
+  }
 
   ngAfterViewInit() {
     this._canvasElement = this._canvas?.nativeElement;
