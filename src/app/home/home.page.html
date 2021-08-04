@@ -1,20 +1,48 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Ionic QR Scanner</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <!-- Fallback for iOS PWA -->
+  <input #fileinput type="file" accept="image/*;capture=camera" hidden (change)="handleFile($event.target.files)">
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <!-- Trigger the file input -->
+  <ion-button expand="full" (click)="captureImage()">
+    <ion-icon slot="start" name="camera"></ion-icon>
+    Capture Image
+  </ion-button>
+
+  <ion-button expand="full" (click)="startScan()">
+    <ion-icon slot="start" name="qr-scanner"></ion-icon>
+    Start scan
+  </ion-button>
+
+  <ion-button expand="full" (click)="reset()" color="warning" *ngIf="scanResult">
+    <ion-icon slot="start" name="refresh"></ion-icon>
+    Reset
+  </ion-button>
+
+  <!-- Shows our camera stream -->
+  <video #video [hidden]="!scanActive" width="100%"></video>
+
+  <!-- Used to render the camera stream images -->
+  <canvas #canvas hidden></canvas>
+
+  <!-- Stop our scanner preview if active -->
+  <ion-button expand="full" (click)="stopScan()" color="danger" *ngIf="scanActive">
+    <ion-icon slot="start" name="close"></ion-icon>
+    Stop scan
+  </ion-button>
+
+  <ion-card *ngIf="scanResult">
+    <ion-card-header>
+      <ion-card-title>QR Code</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      {{ scanResult }}
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>
