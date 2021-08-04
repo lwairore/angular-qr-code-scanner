@@ -11,6 +11,8 @@ export class HomePage {
   private _video: ElementRef | undefined;
   @ViewChild('canvas', { static: false })
   private _canvas: ElementRef | undefined;
+  @ViewChild('fileinput', { static: false })
+  private _fileinput: ElementRef | undefined;
 
   constructor() { }
 
