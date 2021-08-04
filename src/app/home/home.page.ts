@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { LoadingController, Platform, ToastController } from '@ionic/angular';
 import jsQR from 'jsqr';
 
@@ -7,7 +8,7 @@ import jsQR from 'jsqr';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements AfterViewInit, OnDestroy {
+export class HomePage implements AfterViewInit, OnDestroy, OnInit {
   @ViewChild('video', { static: false })
   private _video: ElementRef | undefined;
   @ViewChild('canvas', { static: false })
@@ -26,11 +27,19 @@ export class HomePage implements AfterViewInit, OnDestroy {
 
   failedToReadQRCode = false;
 
+  private _onlineEventUnlistener: (() => void) | undefined;
+  private _offlineEventUnlistener: (() => void) | undefined;
+  private _beforeinstallpromptUnlistener: (() => void) | undefined;
+  private _appinstalledUnlistener: (() => void) | undefined;
+
+  promptEvent: any;
 
   constructor(
     private _toastCtrl: ToastController,
     private _loadingCtrl: LoadingController,
-    private _plt: Platform
+    private _plt: Platform,
+    @Inject(DOCUMENT) private document: Document,
+    private _renderer2: Renderer2
   ) {
     const isInStandaloneMode = () =>
       'standalone' in window.navigator && (window.navigator as any)?.standalone;
@@ -42,12 +51,51 @@ export class HomePage implements AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     this._revokeObjectURLs();
+    if (this._onlineEventUnlistener) {
+      this._onlineEventUnlistener();
+    }
+
+    if (this._offlineEventUnlistener) {
+      this._offlineEventUnlistener();
+    }
+
+    if (this._beforeinstallpromptUnlistener) {
+      this._beforeinstallpromptUnlistener();
+    }
+
+    if (this._appinstalledUnlistener) {
+      this._appinstalledUnlistener();
+    }
+  }
+
+  ngOnInit() {
+    this._onlineEventUnlistener = this._renderer2.listen('window', 'online', () =>
+      this._displayNetworkStatus());
+
+    this._offlineEventUnlistener = this._renderer2.listen('window', 'offline', () =>
+      this._displayNetworkStatus());
+
+    this._beforeinstallpromptUnlistener = this._renderer2
+      .listen('window', 'beforeinstallprompt', (event) => this.promptEvent = event);
+
+    this._appinstalledUnlistener = this._renderer2
+      .listen('window', 'appinstalled', (event) => this.promptEvent = undefined);
   }
 
   ngAfterViewInit() {
     this._canvasElement = this._canvas?.nativeElement;
     this._canvasContext = this._canvasElement.getContext('2d');
     this._videoElement = this._video?.nativeElement;
+  }
+
+  private _displayNetworkStatus() {
+    if (navigator.onLine) {
+      this._renderer2.setStyle(
+        this.document.body, 'filter', '');
+    } else {
+      this._renderer2.setStyle(
+        this.document.body, 'filter', 'grayscale(1)');
+    }
   }
 
   // Helper functions
