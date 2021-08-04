@@ -63,5 +63,9 @@ export class HomePage implements AfterViewInit {
     this.scanResult = null;
   }
 
+  stopScan() {
+    this.scanActive = false;
+  }
+
 
 }
