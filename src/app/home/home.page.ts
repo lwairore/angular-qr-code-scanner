@@ -88,6 +88,10 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
     this._videoElement = this._video?.nativeElement;
   }
 
+  installPwa(): void {
+    this.promptEvent?.prompt();
+  }
+
   private _displayNetworkStatus() {
     if (navigator.onLine) {
       this._renderer2.setStyle(
