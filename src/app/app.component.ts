@@ -11,5 +11,8 @@ export class AppComponent implements OnInit {
     @Inject(DOCUMENT) private document: Document,
     private renderer2: Renderer2) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this._onlineEventUnlistener = this._renderer2.listen('window', 'online', () =>
+      this._displayNetworkStatus());
+  }
 }
