@@ -73,6 +73,7 @@ export class HomePage implements AfterViewInit, OnDestroy {
 
   stopScan() {
     this.scanActive = false;
+    this._resetFailedToReadQRCode();
   }
 
   async startScan() {
