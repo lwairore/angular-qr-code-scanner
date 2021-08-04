@@ -13,7 +13,11 @@ export class AppComponent implements OnInit, OnDestroy {
     @Inject(DOCUMENT) private document: Document,
     private _renderer2: Renderer2) { }
 
-  ngOnDestroy() { }
+  ngOnDestroy() {
+    if (this._onlineEventUnlistener) {
+      this._onlineEventUnlistener();
+    }
+  }
 
   ngOnInit() {
     this._onlineEventUnlistener = this._renderer2.listen('window', 'online', () =>
