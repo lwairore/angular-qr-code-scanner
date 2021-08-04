@@ -15,6 +15,7 @@ export class HomePage {
   private _fileinput: ElementRef | undefined;
 
   private _canvasElement: any;
+  private _videoElement: any;
 
   constructor() { }
 
