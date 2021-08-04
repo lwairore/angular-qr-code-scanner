@@ -155,6 +155,15 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
   stopScan() {
     this.scanActive = false;
     this._resetFailedToReadQRCode();
+    const stream = this._videoElement?.srcObject;
+    if (stream) {
+      const tracks = stream.getTracks();
+      tracks.forEach(function (track: any) {
+        track?.stop();
+      });
+
+      this._videoElement.srcObject = null;
+    }
   }
 
   async startScan() {
