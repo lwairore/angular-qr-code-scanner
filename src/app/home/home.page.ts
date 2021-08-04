@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { SwUpdate } from '@angular/service-worker';
 import { AlertController, LoadingController, Platform, ToastController } from '@ionic/angular';
 import jsQR from 'jsqr';
 
@@ -38,9 +39,10 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
     private _toastCtrl: ToastController,
     private _loadingCtrl: LoadingController,
     private _plt: Platform,
-    @Inject(DOCUMENT) private document: Document,
+    @Inject(DOCUMENT) private _document: Document,
     private _renderer2: Renderer2,
-    private _alertCtrl: AlertController
+    private _alertCtrl: AlertController,
+    private readonly _updates: SwUpdate
   ) {
     const isInStandaloneMode = () =>
       'standalone' in window.navigator && (window.navigator as any)?.standalone;
@@ -48,6 +50,10 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
       console.log('I am a an iOS PWA!');
       // E.g. hide the scan functionality!
     }
+
+    this._updates.available.subscribe(event => {
+      this.showAppUpdateAlert();
+    });
   }
 
   ngOnDestroy() {
@@ -89,6 +95,28 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
     this._videoElement = this._video?.nativeElement;
   }
 
+  showAppUpdateAlert() {
+    const title = 'Updates are available';
+    const message = 'New updates are available for QR Code Scanner.';
+    this.presentAlert(title, message);
+  }
+
+  async presentAlert(title: string, msg: string) {
+    const alert = await this._alertCtrl.create({
+      header: title,
+      message: msg,
+      buttons: [
+        {
+          text: 'Update',
+          handler: () => {
+            this._document.location.reload();
+          }
+        }
+      ],
+    });
+    await alert.present();
+  }
+
   installPwa(): void {
     this.promptEvent?.prompt();
   }
@@ -96,10 +124,10 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
   private _displayNetworkStatus() {
     if (navigator.onLine) {
       this._renderer2.setStyle(
-        this.document.body, 'filter', '');
+        this._document.body, 'filter', '');
     } else {
       this._renderer2.setStyle(
-        this.document.body, 'filter', 'grayscale(1)');
+        this._document.body, 'filter', 'grayscale(1)');
     }
   }
 
