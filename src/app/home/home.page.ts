@@ -42,4 +42,21 @@ export class HomePage implements AfterViewInit {
     this._videoElement = this._video?.nativeElement;
   }
 
+  // Helper functions
+  private async _showQrToast() {
+    const toast = await this._toastCtrl.create({
+      message: `Open ${this.scanResult}?`,
+      position: 'top',
+      buttons: [
+        {
+          text: 'Open',
+          handler: () => {
+            window.open((this.scanResult as unknown as string | undefined), '_system', 'location=yes');
+          }
+        }
+      ]
+    });
+    toast.present();
+  }
+
 }
