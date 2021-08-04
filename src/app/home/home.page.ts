@@ -14,6 +14,8 @@ export class HomePage {
   @ViewChild('fileinput', { static: false })
   private _fileinput: ElementRef | undefined;
 
+  private _canvasElement: any;
+
   constructor() { }
 
 }
