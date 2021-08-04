@@ -9,6 +9,7 @@ import { Component, Inject, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 export class AppComponent implements OnInit, OnDestroy {
   private _onlineEventUnlistener: (() => void) | undefined;
   private _offlineEventUnlistener: (() => void) | undefined;
+  private _beforeinstallpromptUnlistener: (() => void) | undefined;
 
   promptEvent: any;
 
