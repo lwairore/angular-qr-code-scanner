@@ -27,6 +27,13 @@ export class HomePage {
     private _toastCtrl: ToastController,
     private _loadingCtrl: LoadingController,
     private _plt: Platform
-  ) { }
+  ) {
+    const isInStandaloneMode = () =>
+      'standalone' in window.navigator && (window.navigator as any)?.standalone;
+    if (this._plt.is('ios') && isInStandaloneMode()) {
+      console.log('I am a an iOS PWA!');
+      // E.g. hide the scan functionality!
+    }
+  }
 
 }
