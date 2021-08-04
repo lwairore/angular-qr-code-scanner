@@ -170,6 +170,7 @@ export class HomePage implements AfterViewInit {
         this._showQrToast();
       }
     };
+    this._revokeObjectURLs();
     img.src = URL.createObjectURL(file);
     this._imgObjectURLs.push(img.src);
   }
