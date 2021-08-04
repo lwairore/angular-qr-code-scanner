@@ -67,5 +67,22 @@ export class HomePage implements AfterViewInit {
     this.scanActive = false;
   }
 
+  async startScan() {
+    // Not working on iOS standalone mode!
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: 'environment' }
+    });
+
+    this._videoElement.srcObject = stream;
+    // Required for Safari
+    this._videoElement.setAttribute('playsinline', true);
+
+    this._loading = await this._loadingCtrl.create({});
+    await this._loading.present();
+
+    this._videoElement?.play();
+    requestAnimationFrame(this._scan.bind(this));
+  }
+
 
 }
