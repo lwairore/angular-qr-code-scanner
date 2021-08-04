@@ -9,7 +9,7 @@ import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
 export class AppComponent implements OnInit {
   constructor(
     @Inject(DOCUMENT) private document: Document,
-    private renderer2: Renderer2) { }
+    private _renderer2: Renderer2) { }
 
   ngOnInit() {
     this._onlineEventUnlistener = this._renderer2.listen('window', 'online', () =>
