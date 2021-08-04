@@ -59,4 +59,9 @@ export class HomePage implements AfterViewInit {
     toast.present();
   }
 
+  reset() {
+    this.scanResult = null;
+  }
+
+
 }
