@@ -7,7 +7,7 @@
       "installMode": "prefetch",
       "resources": {
         "files": [
-          "/favicon.ico",
+          "/ion-qr-code-scanner.ico",
           "/index.html",
           "/manifest.webmanifest",
           "/*.css",

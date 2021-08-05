@@ -104,7 +104,7 @@
             "scripts": [],
             "assets": [
               {
-                "glob": "favicon.ico",
+                "glob": "ion-qr-code-scanner.ico",
                 "input": "src/",
                 "output": "/"
               },
