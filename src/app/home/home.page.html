@@ -55,6 +55,9 @@
             <ion-icon name="open"></ion-icon>
             Open
           </ion-button>
+          <ion-card div class="card">
+            <img *ngIf="imgObjectURLs[0]?.trim()?.length" [src]="sanitizeImgSrcURL(imgObjectURLs[0])" />
+          </ion-card>
         </ng-container>
         <ng-template #qrCodeValueIsProbablyNotAURL>
           {{ scanResult }}
