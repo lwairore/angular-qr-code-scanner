@@ -81,15 +81,11 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
   }
 
   ngOnInit() {
-    this._onlineEventUnlistener = this._renderer2.listen('window', 'online', () => {
-      this.appIsOnline = true;
-      this._displayNetworkStatus()
-    });
+    this._onlineEventUnlistener = this._renderer2.listen('window', 'online', () =>
+      this._displayNetworkStatus());
 
-    this._offlineEventUnlistener = this._renderer2.listen('window', 'offline', () => {
-      this.appIsOnline = false;
-      this._displayNetworkStatus()
-    });
+    this._offlineEventUnlistener = this._renderer2.listen('window', 'offline', () =>
+      this._displayNetworkStatus());
 
     this._beforeinstallpromptUnlistener = this._renderer2
       .listen('window', 'beforeinstallprompt', (event) => this.promptEvent = event);
@@ -135,9 +131,11 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
     if (navigator.onLine) {
       this._renderer2.setStyle(
         this._document.body, 'filter', '');
+      this.appIsOnline = true;
     } else {
       this._renderer2.setStyle(
         this._document.body, 'filter', 'grayscale(1)');
+      this.appIsOnline = false;
     }
   }
 
