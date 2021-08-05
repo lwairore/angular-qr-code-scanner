@@ -341,4 +341,9 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
   sanitizeImgSrcURL(url: string): SafeUrl {
     return this._dom.bypassSecurityTrustUrl(url);
   }
+
+  canShare(): boolean {
+    const navigator = window.navigator as any;
+    return navigator?.share;
+  }
 }
