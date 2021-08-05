@@ -63,3 +63,12 @@
     <ion-icon name="download"></ion-icon> Install App
   </ion-button>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar color="primary" *ngIf="appIsOnline">
+    <ion-title>You are online :)</ion-title>
+  </ion-toolbar>
+  <ion-toolbar color="danger" *ngIf="!appIsOnline">
+    <ion-title>You are offline :(</ion-title>
+  </ion-toolbar>
+</ion-footer>
