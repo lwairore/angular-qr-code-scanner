@@ -80,11 +80,12 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
   }
 
   ngOnInit() {
-    this._onlineEventUnlistener = this._renderer2.listen('window', 'online', () =>
-      this._displayNetworkStatus());
+    this._onlineEventUnlistener = this._renderer2.listen('window', 'online', () => {
+      this.appIsOnline = true;
+      this._displayNetworkStatus()
+    });
 
-    this._offlineEventUnlistener = this._renderer2.listen('window', 'offline', () =>
-      this._displayNetworkStatus());
+    this._offlineEventUnlistener = this._renderer2.listen('window', 'offline', () => { this._displayNetworkStatus() });
 
     this._beforeinstallpromptUnlistener = this._renderer2
       .listen('window', 'beforeinstallprompt', (event) => this.promptEvent = event);
