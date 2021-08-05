@@ -85,7 +85,10 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
       this._displayNetworkStatus()
     });
 
-    this._offlineEventUnlistener = this._renderer2.listen('window', 'offline', () => { this._displayNetworkStatus() });
+    this._offlineEventUnlistener = this._renderer2.listen('window', 'offline', () => {
+      this.appIsOnline = false;
+      this._displayNetworkStatus()
+    });
 
     this._beforeinstallpromptUnlistener = this._renderer2
       .listen('window', 'beforeinstallprompt', (event) => this.promptEvent = event);
