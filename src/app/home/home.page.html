@@ -50,11 +50,13 @@
     <ion-card-content>
       <ng-container *ngIf="scanResult; else failedToReadQRCodeSection;">
         <ng-container *ngIf="readQRCodeIsURL(scanResult); else qrCodeValueIsProbablyNotAURL;">
-          <span (click)="openURL()" [style.cursor]="'pointer'">{{ scanResult }}</span>
-          <ion-button expand="block" (click)="openURL()">
-            <ion-icon name="open"></ion-icon>
-            Open
-          </ion-button>
+          <a [href]="scanResult" target="_blank" rel="noopener"><span>{{ scanResult }}</span></a>
+          <a [href]="scanResult" target="_blank" rel="noopener">
+            <ion-button expand="block">
+              <ion-icon name="open"></ion-icon>
+              Open
+            </ion-button>
+          </a>
           <ion-button expand="block" (click)="sharePropertyUsingTheWebShareApi()" *ngIf="canShare()">
             <ion-icon name="share-social"></ion-icon>
             Share
