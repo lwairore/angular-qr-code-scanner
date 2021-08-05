@@ -346,4 +346,32 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
     const navigator = window.navigator as any;
     return navigator?.share;
   }
+
+  sharePropertyUsingTheWebShareApi() {
+    const navigator = window.navigator as any;
+
+    if (navigator.share) {
+      let shareOptions: any = undefined;
+      if (this.readQRCodeIsURL(this.scanResult)) {
+        shareOptions = {
+          url: this.scanResult
+        };
+      } else {
+        if (this.scanResult?.trim()?.length) {
+          shareOptions['title'] = this.scanResult;
+        }
+      }
+
+      if (!shareOptions) { return; }
+      navigator.share(shareOptions)
+        .then(() => {
+          console.log('Thanks for sharing!');
+        })
+        .catch((err: { message: any; }) => {
+          console.log(`Couldn't share because of`, err.message);
+        });
+    } else {
+      console.log('web share not supported');
+    }
+  }
 }
