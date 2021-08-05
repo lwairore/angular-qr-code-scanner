@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { SwUpdate } from '@angular/service-worker';
 import { AlertController, LoadingController, Platform, ToastController } from '@ionic/angular';
 import jsQR from 'jsqr';
@@ -28,7 +29,7 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
   scanResult: any;
   private _loading: HTMLIonLoadingElement | null = null;
 
-  private _imgObjectURLs: string[] = [];
+  imgObjectURLs: string[] = [];
 
   failedToReadQRCode = false;
 
@@ -47,7 +48,8 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
     @Inject(DOCUMENT) private _document: Document,
     private _renderer2: Renderer2,
     private _alertCtrl: AlertController,
-    private readonly _updates: SwUpdate
+    private readonly _updates: SwUpdate,
+    private _dom: DomSanitizer
   ) {
     const isInStandaloneMode = () =>
       'standalone' in window.navigator && (window.navigator as any)?.standalone;
@@ -195,6 +197,46 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
     }
   }
 
+  convertCanvasToImage(imagedata: any) {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = imagedata.width;
+    canvas.height = imagedata.height;
+    ctx?.putImageData(imagedata, 0, 0);
+
+    const src = URL.createObjectURL((this.dataURItoBlob(canvas.toDataURL())));
+
+    this.imgObjectURLs.push(src);
+
+    return src;
+  }
+
+  dataURItoBlob(dataURI: any) {
+    // convert base64 to raw binary data held in a string
+    // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+    var byteString = atob(dataURI.split(',')[1]);
+
+    // separate out the mime component
+    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+
+    // write the bytes of the string to an ArrayBuffer
+    var ab = new ArrayBuffer(byteString.length);
+
+    // create a view into the buffer
+    var ia = new Uint8Array(ab);
+
+    // set the bytes of the buffer to the correct values
+    for (var i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+
+    // write the ArrayBuffer to a blob, and you're done
+    var blob = new Blob([ab], { type: mimeString });
+    return blob;
+
+  }
+
+
   private async _scan() {
     if (this._videoElement.readyState === this._videoElement.HAVE_ENOUGH_DATA) {
       if (this._loading) {
@@ -229,6 +271,7 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
         this.scanActive = false;
         this.scanResult = code.data;
         this._causeVibration();
+        this.convertCanvasToImage(imageData);
       } else {
         this._notifyUserFailedToReadQRCode();
         if (this.scanActive) {
@@ -282,16 +325,20 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
     };
     this._revokeObjectURLs();
     img.src = URL.createObjectURL(file);
-    this._imgObjectURLs.push(img.src);
+    this.imgObjectURLs.push(img.src);
   }
 
   private _revokeObjectURLs() {
-    this._imgObjectURLs.forEach(url =>
+    this.imgObjectURLs.forEach(url =>
       URL.revokeObjectURL(url));
   }
 
   readQRCodeIsURL(qrCodeValue: string): boolean {
     const regex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
     return regex.test(qrCodeValue);
+  }
+
+  sanitizeImgSrcURL(url: string): SafeUrl {
+    return this._dom.bypassSecurityTrustUrl(url);
   }
 }
