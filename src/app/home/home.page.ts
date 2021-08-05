@@ -83,6 +83,7 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
   }
 
   ngOnInit() {
+    this.appIsOnline = navigator?.onLine;
     this._onlineEventUnlistener = this._renderer2.listen('window', 'online', () =>
       this._displayNetworkStatus());
 
@@ -139,10 +140,6 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
         this._document.body, 'filter', 'grayscale(1)');
       this.appIsOnline = false;
     }
-  }
-
-  openURL() {
-    window.open((this.scanResult as unknown as string | undefined), '_system', 'location=yes');
   }
 
   reset() {
