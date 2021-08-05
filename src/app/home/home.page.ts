@@ -38,6 +38,7 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
   private _appinstalledUnlistener: (() => void) | undefined;
 
   promptEvent: any;
+  appIsOnline: boolean | undefined;
 
   constructor(
     private _toastCtrl: ToastController,
