@@ -55,6 +55,10 @@
             <ion-icon name="open"></ion-icon>
             Open
           </ion-button>
+          <ion-button expand="block" (click)="sharePropertyUsingTheWebShareApi()" *ngIf="canShare()">
+            <ion-icon name="share-social"></ion-icon>
+            Share
+          </ion-button>
           <ion-card div class="card">
             <img *ngIf="imgObjectURLs?.length" [src]="sanitizeImgSrcURL(imgObjectURLs[imgObjectURLs.length-1])" />
           </ion-card>
