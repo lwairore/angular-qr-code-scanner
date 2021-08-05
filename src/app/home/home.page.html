@@ -49,7 +49,17 @@
     </ion-card-header>
     <ion-card-content>
       <ng-container *ngIf="scanResult; else failedToReadQRCodeSection;">
-        {{ scanResult }}
+        <ng-container *ngIf="readQRCodeIsURL(scanResult); else qrCodeValueIsProbablyNotAURL;">
+          <span (click)="openURL()" [style.cursor]="'pointer'">{{ scanResult }}</span>
+          <ion-button expand="block" (click)="openURL()">
+            <ion-icon name="open"></ion-icon>
+            Open
+          </ion-button>
+
+        </ng-container>
+        <ng-template #qrCodeValueIsProbablyNotAURL>
+          {{ scanResult }}
+        </ng-template>
       </ng-container>
       <ng-template #failedToReadQRCodeSection>
         <span [style.color]="'#eb445a'">
