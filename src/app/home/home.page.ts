@@ -234,6 +234,7 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
 
       if (code && code?.data?.trim()?.length) {
         this._resetFailedToReadQRCode();
+        this.stopScan();
         this.scanActive = false;
         this.scanResult = code.data;
         this._causeVibration();
@@ -282,6 +283,7 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
 
       if (code && code?.data?.trim()?.length) {
         this._resetFailedToReadQRCode();
+        this.stopScan();
         this.scanResult = code.data;
         this._causeVibration()
         this._showQrToast();
