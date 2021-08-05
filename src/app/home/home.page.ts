@@ -139,25 +139,13 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
     }
   }
 
-  // Helper functions
-  private async _showQrToast() {
-    const toast = await this._toastCtrl.create({
-      message: `Open ${this.scanResult}?`,
-      position: 'top',
-      buttons: [
-        {
-          text: 'Open',
-          handler: () => {
-            window.open((this.scanResult as unknown as string | undefined), '_system', 'location=yes');
-          }
-        }
-      ]
-    });
-    toast.present();
+  openURL() {
+    window.open((this.scanResult as unknown as string | undefined), '_system', 'location=yes');
   }
 
   reset() {
     this.scanResult = null;
+    this.stopScan();
   }
 
   stopScan() {
@@ -241,7 +229,6 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
         this.scanActive = false;
         this.scanResult = code.data;
         this._causeVibration();
-        this._showQrToast();
       } else {
         this._notifyUserFailedToReadQRCode();
         if (this.scanActive) {
@@ -289,7 +276,6 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
         this.stopScan();
         this.scanResult = code.data;
         this._causeVibration()
-        this._showQrToast();
       } else {
         this._notifyUserFailedToReadQRCode();
       }
@@ -302,5 +288,10 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
   private _revokeObjectURLs() {
     this._imgObjectURLs.forEach(url =>
       URL.revokeObjectURL(url));
+  }
+
+  readQRCodeIsURL(qrCodeValue: string): boolean {
+    const regex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
+    return regex.test(qrCodeValue);
   }
 }
