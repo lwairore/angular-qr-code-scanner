@@ -11,6 +11,10 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  {
+    path: 'qr-code-generator',
+    loadChildren: () => import('./qr-code-generator/qr-code-generator.module').then( m => m.QrCodeGeneratorPageModule)
+  },
 ];
 
 @NgModule({
