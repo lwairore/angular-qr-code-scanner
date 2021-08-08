@@ -15,7 +15,7 @@ export class SmsQrCodeComponent implements OnInit {
   correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
   showQrCode = false;
   valueForQrCode: string | undefined;
-  downloadQrCodeImageBlob: string[] = [];
+  private _downloadQrCodeImageBlob: string[] = [];
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -73,7 +73,7 @@ export class SmsQrCodeComponent implements OnInit {
           window.navigator.msSaveOrOpenBlob(blob, fileNameToDownload);
         } else { // Chrome
           const url = window.URL.createObjectURL(blob);
-          this.downloadQrCodeImageBlob.push(url);
+          this._downloadQrCodeImageBlob.push(url);
           const link = this._document.createElement('a');
           link.href = url;
           link.download = fileNameToDownload;
