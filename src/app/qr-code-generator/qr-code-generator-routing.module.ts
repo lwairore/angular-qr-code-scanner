@@ -8,13 +8,11 @@ const routes: Routes = [
   {
     path: '',
     component: QrCodeGeneratorPage,
-    children: [
-      {
-        path: 'sms',
-        component: SmsQrCodeComponent
-      },
-    ]
-  }
+  },
+  {
+    path: 'sms',
+    component: SmsQrCodeComponent
+  },
 ];
 
 @NgModule({
