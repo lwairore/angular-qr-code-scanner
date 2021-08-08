@@ -15,7 +15,7 @@ export class SmsQrCodeComponent implements OnInit {
   correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
   showQrCode = false;
   valueForQrCode: string | undefined;
-
+  downloadQrCodeImageBlob: string[] = [];
 
   constructor(
     private _formBuilder: FormBuilder,
