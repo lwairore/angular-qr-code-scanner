@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgxQrcodeElementTypes, NgxQrcodeErrorCorrectionLevels } from '@techiediaries/ngx-qrcode';
 
 @Component({
   selector: 'app-sms-qr-code',
@@ -9,6 +10,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class SmsQrCodeComponent implements OnInit {
   smsDetailsFormGroup: FormGroup | undefined;
   isSubmitted = false;
+  elementType = NgxQrcodeElementTypes.URL;
+  correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
 
   constructor(
     private _formBuilder: FormBuilder
@@ -27,6 +30,16 @@ export class SmsQrCodeComponent implements OnInit {
 
   get errorControl() {
     return this.smsDetailsFormGroup?.controls;
+  }
+
+  submitForm() {
+    this.isSubmitted = true;
+    if (this.smsDetailsFormGroup?.invalid) {
+      console.log('Please provide all the required values!')
+      return false;
+    }
+
+
   }
 
 }
