@@ -8,13 +8,15 @@ import { QrCodeGeneratorPageRoutingModule } from './qr-code-generator-routing.mo
 
 import { QrCodeGeneratorPage } from './qr-code-generator.page';
 import { SmsQrCodeComponent } from './sms-qr-code/sms-qr-code.component';
+import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
     IonicModule,
-    QrCodeGeneratorPageRoutingModule
+    QrCodeGeneratorPageRoutingModule,
+    NgxQRCodeModule,
   ],
   declarations: [
     QrCodeGeneratorPage,
