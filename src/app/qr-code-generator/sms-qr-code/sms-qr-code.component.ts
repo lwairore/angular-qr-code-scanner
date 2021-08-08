@@ -39,7 +39,7 @@ export class SmsQrCodeComponent implements OnInit, OnDestroy {
     this.smsDetailsFormGroup = this._formBuilder.group({
       phoneNumber: ['', Validators.compose([
         Validators.maxLength(20),
-        Validators.pattern('^[0-9]+$')
+        Validators.pattern(/^\+{0,1}[0-9]+$/)
       ])],
       message: ['', Validators.maxLength(120)]
     });
@@ -74,22 +74,8 @@ export class SmsQrCodeComponent implements OnInit, OnDestroy {
 
   downloadQRCode() {
     this._revokeDownloadQrCodeImageURLs();
-    let fileNameToDownload = '';
+    const fileNameToDownload = 'created_sms_qr_code';
     const phoneNumber = this.smsDetailsFormGroup?.get('phoneNumber')?.value?.trim();
-    if (phoneNumber?.length > 0) {
-      fileNameToDownload += 'SMS QR Code: ' + phoneNumber;
-    }
-
-    const message = this.smsDetailsFormGroup?.get('message')?.value?.trim();
-    if (message?.length > 0) {
-      fileNameToDownload += message;
-    }
-
-    if (!fileNameToDownload.length) {
-      fileNameToDownload = 'Created SMS QR code'
-    }
-
-    fileNameToDownload = this.formatFileNames(fileNameToDownload);
 
     const coolQRCodeElement = this._document.getElementsByClassName('coolQRCode');
     if (!coolQRCodeElement.length) { return; }
