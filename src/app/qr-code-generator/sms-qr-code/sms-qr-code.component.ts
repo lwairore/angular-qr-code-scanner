@@ -68,12 +68,16 @@ export class SmsQrCodeComponent implements OnInit, OnDestroy {
     this.showQrCode = true;
   }
 
+  formatFileNames(str: string): string {
+    return str.replace(/[^a-z][a-z]/gi, word => word.toUpperCase().replace(/[^a-z]/gi, ''))
+  }
+
   downloadQRCode() {
     this._revokeDownloadQrCodeImageURLs();
     let fileNameToDownload = '';
     const phoneNumber = this.smsDetailsFormGroup?.get('phoneNumber')?.value?.trim();
     if (phoneNumber?.length > 0) {
-      fileNameToDownload += phoneNumber;
+      fileNameToDownload += 'SMS: ' + phoneNumber;
     }
 
     const message = this.smsDetailsFormGroup?.get('message')?.value?.trim();
@@ -84,6 +88,8 @@ export class SmsQrCodeComponent implements OnInit, OnDestroy {
     if (!fileNameToDownload.length) {
       fileNameToDownload = 'Created SMS QR code'
     }
+
+    fileNameToDownload = this.formatFileNames(fileNameToDownload);
 
     const coolQRCodeElement = this._document.getElementsByClassName('coolQRCode');
     if (!coolQRCodeElement.length) { return; }
