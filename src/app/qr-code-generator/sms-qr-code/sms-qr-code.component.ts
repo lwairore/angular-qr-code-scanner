@@ -13,6 +13,7 @@ export class SmsQrCodeComponent implements OnInit {
   elementType = NgxQrcodeElementTypes.URL;
   correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
   showQrCode = false;
+  valueForQrCode: string |undefined;
 
   constructor(
     private _formBuilder: FormBuilder
