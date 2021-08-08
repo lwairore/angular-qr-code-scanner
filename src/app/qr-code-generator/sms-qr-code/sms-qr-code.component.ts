@@ -70,11 +70,28 @@ export class SmsQrCodeComponent implements OnInit, OnDestroy {
 
   downloadQRCode() {
     this._revokeDownloadQrCodeImageURLs();
-    const fileNameToDownload = 'image_qrcode';
+    let fileNameToDownload = '';
+    const phoneNumber = this.smsDetailsFormGroup?.get('phoneNumber')?.value?.trim();
+    if (phoneNumber?.length > 0) {
+      fileNameToDownload += phoneNumber;
+    }
+
+    const message = this.smsDetailsFormGroup?.get('message')?.value?.trim();
+    if (message?.length > 0) {
+      fileNameToDownload += message;
+    }
+
+    if (!fileNameToDownload.length) {
+      fileNameToDownload = 'Created SMS QR code'
+    }
+
     const coolQRCodeElement = this._document.getElementsByClassName('coolQRCode');
     if (!coolQRCodeElement.length) { return; }
 
-    const base64Img = (coolQRCodeElement[0].children[0] as HTMLImageElement)['src'];
+    const coolQRCodeElementChildren = coolQRCodeElement[0].children;
+    if (!coolQRCodeElementChildren.length) { return; }
+
+    const base64Img = (coolQRCodeElementChildren[0] as HTMLImageElement)['src'];
     fetch(base64Img)
       .then(res => res.blob())
       .then((blob) => {
