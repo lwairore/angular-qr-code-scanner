@@ -16,6 +16,7 @@ export class SmsQrCodeComponent implements OnInit {
   showQrCode = false;
   valueForQrCode: string | undefined;
 
+
   constructor(
     private _formBuilder: FormBuilder,
     @Inject(DOCUMENT) private _document: Document,
@@ -56,6 +57,28 @@ export class SmsQrCodeComponent implements OnInit {
       ':' + this.smsDetailsFormGroup?.value?.message.trim();
 
     this.showQrCode = true;
+  }
+
+  downloadQRCode() {
+    const fileNameToDownload = 'image_qrcode';
+    const coolQRCodeElement = this._document.getElementsByClassName('coolQRCode');
+    if (!coolQRCodeElement.length) { return; }
+
+    const base64Img = (coolQRCodeElement[0].children[0] as HTMLImageElement)['src'];
+    fetch(base64Img)
+      .then(res => res.blob())
+      .then((blob) => {
+        // IE
+        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+          window.navigator.msSaveOrOpenBlob(blob, fileNameToDownload);
+        } else { // Chrome
+          const url = window.URL.createObjectURL(blob);
+          const link = this._document.createElement('a');
+          link.href = url;
+          link.download = fileNameToDownload;
+          link.click();
+        }
+      })
   }
 
 }
