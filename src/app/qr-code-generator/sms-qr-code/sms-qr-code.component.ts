@@ -15,17 +15,24 @@ export class SmsQrCodeComponent implements OnInit, OnDestroy {
   correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
   showQrCode = false;
   valueForQrCode: string | undefined;
-  private _downloadQrCodeImageBlob: string[] = [];
+  private _downloadQrCodeImageURLs: string[] = [];
 
   constructor(
     private _formBuilder: FormBuilder,
     @Inject(DOCUMENT) private _document: Document,
   ) { }
 
-  ngOnDestroy() { }
+  ngOnDestroy() {
+    this._revokeDownloadQrCodeImageURLs();
+  }
 
   ngOnInit() {
     this._buildSmsDetailsFormGroup();
+  }
+
+  private _revokeDownloadQrCodeImageURLs() {
+    this._downloadQrCodeImageURLs.forEach(url =>
+      URL.revokeObjectURL(url));
   }
 
   private _buildSmsDetailsFormGroup(): void {
@@ -75,7 +82,7 @@ export class SmsQrCodeComponent implements OnInit, OnDestroy {
           window.navigator.msSaveOrOpenBlob(blob, fileNameToDownload);
         } else { // Chrome
           const url = window.URL.createObjectURL(blob);
-          this._downloadQrCodeImageBlob.push(url);
+          this._downloadQrCodeImageURLs.push(url);
           const link = this._document.createElement('a');
           link.href = url;
           link.download = fileNameToDownload;
