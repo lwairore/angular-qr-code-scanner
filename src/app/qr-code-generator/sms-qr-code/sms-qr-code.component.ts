@@ -34,15 +34,23 @@ export class SmsQrCodeComponent implements OnInit {
     return this.smsDetailsFormGroup?.controls;
   }
 
+  showHiddenSmsDetailsForm(): void {
+    this.valueForQrCode = undefined;
+    this.showQrCode = false;
+  }
+
   submitForm() {
     this.isSubmitted = true;
-    if (this.smsDetailsFormGroup?.invalid) {
+    if (this.smsDetailsFormGroup?.invalid ||
+      (!this.smsDetailsFormGroup?.get('phoneNumber')?.value?.trim()?.length && !this.smsDetailsFormGroup?.get('message')?.value?.trim()?.length)) {
       console.log('Please provide all the required values!')
       return false;
     }
 
     this.valueForQrCode = 'SMSTO:' + this.smsDetailsFormGroup?.get('phoneNumber')?.value?.trim() +
       ':' + this.smsDetailsFormGroup?.get('message')?.value()?.trim();
+
+    this.showQrCode = true;
   }
 
 }
