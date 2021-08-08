@@ -50,8 +50,8 @@
     <ion-card-content>
       <ng-container *ngIf="scanResult; else failedToReadQRCodeSection;">
         <ng-container *ngIf="readQRCodeIsURL(scanResult); else qrCodeValueIsProbablyNotAURL;">
-          <a [href]="scanResult" target="_blank" rel="noopener"><span>{{ scanResult }}</span></a>
-          <a [href]="scanResult" target="_blank" rel="noopener">
+          <a [routerLink]="null" (click)="openQrCodeLink()"><span>{{ scanResult }}</span></a>
+          <a [routerLink]="null" (click)="openQrCodeLink()">
             <ion-button expand="block">
               <ion-icon name="open"></ion-icon>
               Open
