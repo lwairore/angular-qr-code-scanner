@@ -6,7 +6,6 @@ import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
 import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
-import { QrCodeGeneratorComponent } from '../qr-code-generator/qr-code-generator.component';
 
 
 @NgModule({
@@ -19,7 +18,6 @@ import { QrCodeGeneratorComponent } from '../qr-code-generator/qr-code-generator
   ],
   declarations: [
     HomePage,
-    QrCodeGeneratorComponent,
   ]
 })
 export class HomePageModule { }
