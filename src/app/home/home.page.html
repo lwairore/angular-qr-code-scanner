@@ -48,20 +48,59 @@
       <ion-card-title>QR Code</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ng-container *ngIf="scanResult; else failedToReadQRCodeSection;">
-        <ng-container *ngIf="readQRCodeIsURL(scanResult); else qrCodeValueIsProbablyNotAURL;">
-          <a [routerLink]="null" (click)="openQrCodeLink()"><span>{{ scanResult }}</span></a>
-          <a [routerLink]="null" (click)="openQrCodeLink()">
-            <ion-button expand="block">
-              <ion-icon name="open"></ion-icon>
-              Open
-            </ion-button>
-          </a>
 
+      <ng-container *ngIf="scanResult; else failedToReadQRCodeSection;">
+        <ng-container [ngSwitch]="formatScanResult()">
+          <ng-container *ngSwitchCase="'sms'">
+            <ng-container *ngTemplateOutlet="displaySMSMetadataTemplate"></ng-container>
+          </ng-container>
+          <ng-container *ngSwitchCase="'url'">
+            <ng-container *ngTemplateOutlet="displayURLMetadataTemplate"></ng-container>
+          </ng-container>
+
+          <ng-container *ngSwitchDefault>
+            <ng-container *ngTemplateOutlet="displayTextMetadataTemplate"></ng-container>
+          </ng-container>
+
+
+          <ng-template #displaySMSMetadataTemplate>
+            <p *ngIf="smsToScanResult?.phoneNumber"> {{ smsToScanResult.phoneNumber }} </p>
+            <p *ngIf="smsToScanResult?.message"> {{ smsToScanResult.message }} </p>
+
+
+            <a *ngIf="platformIsIOS; else platformNotIOS;"
+              href="sms:{{ smsToScanResult?.phoneNumber ? smsToScanResult.phoneNumber: '' }}">
+              <ion-button expand="block">
+                <ion-icon name="open"></ion-icon>
+                Send SMS
+              </ion-button>
+            </a>
+            <ng-template #platformNotIOS>
+              <a
+                href="sms:{{ smsToScanResult?.phoneNumber ? smsToScanResult.phoneNumber: '' }}{{smsToScanResult?.message ? '?body='+manuallyEncodeURIComponent(smsToScanResult.message): '' }}">
+                <ion-button expand="block">
+                  <ion-icon name="open"></ion-icon>
+                  Send SMS
+                </ion-button>
+              </a>
+            </ng-template>
+
+          </ng-template>
+
+          <ng-template #displayURLMetadataTemplate>
+            <a [routerLink]="null" (click)="openQrCodeLink()"><span>{{ scanResult }}</span></a>
+            <a [routerLink]="null" (click)="openQrCodeLink()">
+              <ion-button expand="block">
+                <ion-icon name="open"></ion-icon>
+                Open
+              </ion-button>
+            </a>
+          </ng-template>
+
+          <ng-template #displayTextMetadataTemplate>
+            {{ scanResult }}
+          </ng-template>
         </ng-container>
-        <ng-template #qrCodeValueIsProbablyNotAURL>
-          {{ scanResult }}
-        </ng-template>
         <ion-button expand="block" (click)="sharePropertyUsingTheWebShareApi()" *ngIf="canShare()">
           <ion-icon name="share-social"></ion-icon>
           Share
