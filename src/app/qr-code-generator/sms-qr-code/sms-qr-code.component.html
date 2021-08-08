@@ -1,48 +1,61 @@
-<ng-container *ngIf="showQrCode; else showSmsDetailsForm;">
-  <ngx-qrcode [elementType]="elementType" [errorCorrectionLevel]="correctionLevel" [value]="valueForQrCode"
-    cssClass="bshadow">
-  </ngx-qrcode>
+<ion-content>
+  <ng-container *ngIf="showQrCode; else showSmsDetailsForm;">
 
-  <ion-row>
-    <ion-col>
-      <ion-button type="button" color="danger" expand="block" (click)="showHiddenSmsDetailsForm()">Edit Details on QR
-        Code
-      </ion-button>
-    </ion-col>
-  </ion-row>
-</ng-container>
+    <div class="container">
+      <ion-card style="margin-left: auto; 
+  margin-right: auto;
+  display: block;">
+        <ngx-qrcode [elementType]="elementType" [errorCorrectionLevel]="correctionLevel" [value]="valueForQrCode"
+          cssClass="coolQRCode">
+        </ngx-qrcode>
+        <ion-button expand="block" color="dark" (click)="downloadQRCode()">
+          <ion-icon name="download"></ion-icon> Download QRCode
+        </ion-button>
 
-<ng-template #showSmsDetailsForm>
-  <form [formGroup]="smsDetailsFormGroup" (ngSubmit)="submitForm()" novalidate>
-    <ion-item lines="full">
-      <ion-label position="floating">Number</ion-label>
-      <ion-input formControlName="phoneNumber" type="tel"></ion-input>
-
-    </ion-item>
-    <p></p>
-    <span class="error ion-padding" style="color:#eb445a"
-    
-    *ngIf="(isSubmitted || errorControl.phoneNumber.touched) && errorControl.phoneNumber.errors?.maxlength">
-    Phone number should not exceed 20 chars long.
-  </span> 
-  <span class="error ion-padding" style="color:#eb445a"
-    *ngIf="(isSubmitted || errorControl.phoneNumber.touched) && errorControl.phoneNumber.errors?.pattern">
-    Are you sure you entered the phone number properly? Only numerical values allowed.
-  </span>
-
-    <ion-item lines="full">
-      <ion-label position="floating">Message</ion-label>
-      <ion-textarea formControlName="message"></ion-textarea>
-      <span class="error ion-padding" style="color:#eb445a"
-        *ngIf="(isSubmitted || errorControl.message.touched) && errorControl.message.errors?.maxlength">
-        Message should not exceed 120 chars long.
-      </span>
-    </ion-item>
+      </ion-card>
+    </div>
 
     <ion-row>
       <ion-col>
-        <ion-button type="submit" color="danger" expand="block">Create QR Code</ion-button>
+        <ion-button type="button" color="danger" expand="block" (click)="showHiddenSmsDetailsForm()">Edit Details on QR
+          Code
+        </ion-button>
       </ion-col>
     </ion-row>
-  </form>
-</ng-template>
+
+  </ng-container>
+
+  <ng-template #showSmsDetailsForm>
+    <form [formGroup]="smsDetailsFormGroup" (ngSubmit)="submitForm()" novalidate>
+      <ion-item lines="full">
+        <ion-label position="floating">Number</ion-label>
+        <ion-input formControlName="phoneNumber" type="tel"></ion-input>
+
+      </ion-item>
+      <p></p>
+      <span class="error ion-padding" style="color:#eb445a"
+        *ngIf="(isSubmitted || errorControl.phoneNumber.touched) && errorControl.phoneNumber.errors?.maxlength">
+        Phone number should not exceed 20 chars long.
+      </span>
+      <span class="error ion-padding" style="color:#eb445a"
+        *ngIf="(isSubmitted || errorControl.phoneNumber.touched) && errorControl.phoneNumber.errors?.pattern">
+        Are you sure you entered the phone number properly? Only numerical values allowed.
+      </span>
+
+      <ion-item lines="full">
+        <ion-label position="floating">Message</ion-label>
+        <ion-textarea formControlName="message"></ion-textarea>
+        <span class="error ion-padding" style="color:#eb445a"
+          *ngIf="(isSubmitted || errorControl.message.touched) && errorControl.message.errors?.maxlength">
+          Message should not exceed 120 chars long.
+        </span>
+      </ion-item>
+
+      <ion-row>
+        <ion-col>
+          <ion-button type="submit" color="danger" expand="block">Create QR Code</ion-button>
+        </ion-col>
+      </ion-row>
+    </form>
+  </ng-template>
+</ion-content>
