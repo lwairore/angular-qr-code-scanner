@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-sms-qr-code',
@@ -14,5 +14,12 @@ export class SmsQrCodeComponent implements OnInit {
   ) { }
 
   ngOnInit() { }
+
+  private _buildSmsDetailsFormGroup(): void {
+    this.smsDetailsFormGroup = this._formBuilder.group({
+      phoneNumber: ['', Validators.maxLength(20)],
+      message: ['', Validators.maxLength(120)]
+    });
+  }
 
 }
