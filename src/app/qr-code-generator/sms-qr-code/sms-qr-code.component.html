@@ -5,7 +5,8 @@
 
   <ion-row>
     <ion-col>
-      <ion-button type="button" color="danger" expand="block" (click)="showHiddenSmsDetailsForm()">Edit Details on QR Code
+      <ion-button type="button" color="danger" expand="block" (click)="showHiddenSmsDetailsForm()">Edit Details on QR
+        Code
       </ion-button>
     </ion-col>
   </ion-row>
@@ -18,6 +19,9 @@
       <ion-input formControlName="phoneNumber" type="tel"></ion-input>
       <span class="error ion-padding" *ngIf="isSubmitted && errorControl.phoneNumber.errors?.maxlength">
         Phone number should not exceed 20 chars long.
+      </span>
+      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.phoneNumber.errors?.pattern">
+        Are you sure you entered the phone number properly? Only numerical values allowed.
       </span>
     </ion-item>
 
