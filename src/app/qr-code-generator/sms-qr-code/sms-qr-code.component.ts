@@ -13,7 +13,9 @@ export class SmsQrCodeComponent implements OnInit {
     private _formBuilder: FormBuilder
   ) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this._buildSmsDetailsFormGroup();
+   }
 
   private _buildSmsDetailsFormGroup(): void {
     this.smsDetailsFormGroup = this._formBuilder.group({
