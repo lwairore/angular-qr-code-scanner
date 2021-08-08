@@ -25,7 +25,10 @@ export class SmsQrCodeComponent implements OnInit {
 
   private _buildSmsDetailsFormGroup(): void {
     this.smsDetailsFormGroup = this._formBuilder.group({
-      phoneNumber: ['', Validators.maxLength(20)],
+      phoneNumber: ['', Validators.compose([
+        Validators.maxLength(20),
+        Validators.pattern('^[0-9]+$')
+      ])],
       message: ['', Validators.maxLength(120)]
     });
   }
