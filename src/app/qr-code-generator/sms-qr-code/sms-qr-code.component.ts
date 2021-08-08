@@ -73,6 +73,7 @@ export class SmsQrCodeComponent implements OnInit {
           window.navigator.msSaveOrOpenBlob(blob, fileNameToDownload);
         } else { // Chrome
           const url = window.URL.createObjectURL(blob);
+          this.downloadQrCodeImageBlob.push(url);
           const link = this._document.createElement('a');
           link.href = url;
           link.download = fileNameToDownload;
