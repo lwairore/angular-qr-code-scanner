@@ -62,19 +62,20 @@
         <ng-template #qrCodeValueIsProbablyNotAURL>
           {{ scanResult }}
         </ng-template>
+        <ion-button expand="block" (click)="sharePropertyUsingTheWebShareApi()" *ngIf="canShare()">
+          <ion-icon name="share-social"></ion-icon>
+          Share
+        </ion-button>
+        <ion-card div class="card">
+          <img *ngIf="imgObjectURLs?.length" [src]="sanitizeImgSrcURL(imgObjectURLs[imgObjectURLs.length-1])" />
+        </ion-card>
       </ng-container>
       <ng-template #failedToReadQRCodeSection>
         <span [style.color]="'#eb445a'">
           <ion-icon slot="start" name="warning"></ion-icon> Failed to read QR Code from image.
         </span>
       </ng-template>
-      <ion-button expand="block" (click)="sharePropertyUsingTheWebShareApi()" *ngIf="canShare()">
-        <ion-icon name="share-social"></ion-icon>
-        Share
-      </ion-button>
-      <ion-card div class="card">
-        <img *ngIf="imgObjectURLs?.length" [src]="sanitizeImgSrcURL(imgObjectURLs[imgObjectURLs.length-1])" />
-      </ion-card>
+
     </ion-card-content>
   </ion-card>
 
