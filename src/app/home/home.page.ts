@@ -344,6 +344,11 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
     return navigator?.share;
   }
 
+  openQrCodeLink() {
+    window.open(this.scanResult, '_system', 'location=yes');
+  }
+
+
   sharePropertyUsingTheWebShareApi() {
     const navigator = window.navigator as any;
 
@@ -358,7 +363,7 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
         };
       } else {
         if (this.scanResult?.trim()?.length) {
-          shareOptions = { title: this.scanResult, text:  this.scanResult};
+          shareOptions = { title: this.scanResult, text: this.scanResult };
         }
       }
 
