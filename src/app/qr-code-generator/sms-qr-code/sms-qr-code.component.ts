@@ -13,7 +13,7 @@ export class SmsQrCodeComponent implements OnInit {
   elementType = NgxQrcodeElementTypes.URL;
   correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
   showQrCode = false;
-  valueForQrCode: string |undefined;
+  valueForQrCode: string | undefined;
 
   constructor(
     private _formBuilder: FormBuilder
@@ -41,7 +41,8 @@ export class SmsQrCodeComponent implements OnInit {
       return false;
     }
 
-
+    this.valueForQrCode = 'SMSTO:' + this.smsDetailsFormGroup?.get('phoneNumber')?.value?.trim() +
+      ':' + this.smsDetailsFormGroup?.get('message')?.value()?.trim();
   }
 
 }
