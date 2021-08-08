@@ -1,3 +1,38 @@
-<p>
-  sms-qr-code works!
-</p>
+<ng-container *ngIf="showQrCode; else showSmsDetailsForm;">
+  <ngx-qrcode [elementType]="elementType" [errorCorrectionLevel]="correctionLevel" [value]="valueForQrCode"
+    cssClass="bshadow">
+  </ngx-qrcode>
+
+  <ion-row>
+    <ion-col>
+      <ion-button type="button" color="danger" expand="block" (click)="showHiddenSmsDetailsForm()">Edit Details on QR Code
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ng-container>
+
+<ng-template #showSmsDetailsForm>
+  <form [formGroup]="smsDetailsFormGroup" (ngSubmit)="submitForm()" novalidate>
+    <ion-item lines="full">
+      <ion-label position="floating">Number</ion-label>
+      <ion-input formControlName="phoneNumber" type="tel"></ion-input>
+      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.phoneNumber.errors?.maxlength">
+        Phone number should not exceed 20 chars long.
+      </span>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label position="floating">Message</ion-label>
+      <ion-textarea formControlName="message"></ion-textarea>
+      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.message.errors?.maxlength">
+        Message should not exceed 120 chars long.
+      </span>
+    </ion-item>
+
+    <ion-row>
+      <ion-col>
+        <ion-button type="submit" color="danger" expand="block">Create QR Code</ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
+</ng-template>
