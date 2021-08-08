@@ -9,6 +9,11 @@ interface HTMLInputEvent extends Event {
   target: HTMLInputElement & EventTarget;
 }
 
+interface SMSToInterface {
+  phoneNumber?: string;
+  message?: string;
+}
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -41,6 +46,10 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
   promptEvent: any;
   appIsOnline: boolean | undefined;
 
+  smsToScanResult: SMSToInterface = {};
+
+  platformIsIOS: boolean | undefined;
+
   constructor(
     private _toastCtrl: ToastController,
     private _loadingCtrl: LoadingController,
@@ -51,6 +60,7 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
     private readonly _updates: SwUpdate,
     private _dom: DomSanitizer
   ) {
+    this.platformIsIOS = this._plt.is('ios');
     const isInStandaloneMode = () =>
       'standalone' in window.navigator && (window.navigator as any)?.standalone;
     if (this._plt.is('ios') && isInStandaloneMode()) {
@@ -130,6 +140,10 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
     this.promptEvent?.prompt();
   }
 
+  manuallyEncodeURIComponent(query: string): string {
+    return window?.encodeURIComponent(query);
+  }
+
   private _displayNetworkStatus() {
     if (navigator.onLine) {
       this._renderer2.setStyle(
@@ -159,6 +173,8 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
 
       this._videoElement.srcObject = null;
     }
+
+    this.smsToScanResult = {};
   }
 
   async startScan() {
@@ -328,6 +344,73 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
   private _revokeObjectURLs() {
     this.imgObjectURLs.forEach(url =>
       URL.revokeObjectURL(url));
+  }
+
+  formatScanResult(): string | undefined {
+    const isSMSQRCode = this.formatSMS();
+    if (isSMSQRCode) { return 'sms'; }
+
+    const qrCodeURLMetadata = this.readQRCodeIsURL(this.scanResult);
+    if (qrCodeURLMetadata) {
+      return 'url';
+    }
+
+    return undefined;
+  }
+
+
+
+  formatSMS(): boolean {
+    const smstoReg = /\s*([^[:]+):(.*)/gi;
+
+    let matchedParts: RegExpExecArray | null;
+
+
+    do {
+      matchedParts = smstoReg.exec(this.scanResult);
+      if (matchedParts) {
+        if (matchedParts[1]?.toLowerCase() === 'smsto') {
+          const splitSMSDetails = matchedParts[2]?.split(':');
+          if (Array.isArray(splitSMSDetails)) {
+            let smsMetaDataToFormat: string[] = [];
+
+            if (splitSMSDetails?.length === 0) {
+              smsMetaDataToFormat = ['', ''];
+            } else if (splitSMSDetails?.length === 1) {
+              smsMetaDataToFormat.push(splitSMSDetails[0]?.trim());
+              smsMetaDataToFormat.push('');
+            }
+
+            else {
+              smsMetaDataToFormat.push(splitSMSDetails[0]?.trim());
+              const itemsAfter2Index = splitSMSDetails.splice(2);
+
+              if (itemsAfter2Index.length) {
+                smsMetaDataToFormat.push(splitSMSDetails[1]?.trim() + ' ' + itemsAfter2Index.join('')?.trim());
+              } else {
+                smsMetaDataToFormat.push(splitSMSDetails[1]?.trim());
+              }
+            }
+
+            this.smsToScanResult.phoneNumber = smsMetaDataToFormat[0];
+            this.smsToScanResult.message = smsMetaDataToFormat[1];
+
+
+
+          }
+
+        }
+        console.log(matchedParts[1], matchedParts[2]);
+      }
+    } while (matchedParts);
+
+
+    if (this.smsToScanResult?.phoneNumber || this.smsToScanResult.message) {
+      return true;
+    } else {
+      return false;
+    }
+
   }
 
   readQRCodeIsURL(qrCodeValue: string): boolean {
