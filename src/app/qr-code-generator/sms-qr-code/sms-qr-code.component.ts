@@ -69,6 +69,7 @@ export class SmsQrCodeComponent implements OnInit, OnDestroy {
   }
 
   downloadQRCode() {
+    this._revokeDownloadQrCodeImageURLs();
     const fileNameToDownload = 'image_qrcode';
     const coolQRCodeElement = this._document.getElementsByClassName('coolQRCode');
     if (!coolQRCodeElement.length) { return; }
