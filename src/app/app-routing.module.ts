@@ -12,7 +12,7 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'qr-code-generator',
+    path: 'generate/qr-code',
     loadChildren: () => import('./qr-code-generator/qr-code-generator.module').then( m => m.QrCodeGeneratorPageModule)
   },
 ];
