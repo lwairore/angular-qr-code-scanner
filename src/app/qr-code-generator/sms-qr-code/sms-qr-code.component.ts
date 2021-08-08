@@ -77,7 +77,7 @@ export class SmsQrCodeComponent implements OnInit, OnDestroy {
     let fileNameToDownload = '';
     const phoneNumber = this.smsDetailsFormGroup?.get('phoneNumber')?.value?.trim();
     if (phoneNumber?.length > 0) {
-      fileNameToDownload += 'SMS: ' + phoneNumber;
+      fileNameToDownload += 'SMS QR Code: ' + phoneNumber;
     }
 
     const message = this.smsDetailsFormGroup?.get('message')?.value?.trim();
