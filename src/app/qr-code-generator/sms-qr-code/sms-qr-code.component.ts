@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class SmsQrCodeComponent implements OnInit {
   smsDetailsFormGroup: FormGroup | undefined;
+  isSubmitted = false;
 
   constructor(
     private _formBuilder: FormBuilder
@@ -15,7 +16,7 @@ export class SmsQrCodeComponent implements OnInit {
 
   ngOnInit() {
     this._buildSmsDetailsFormGroup();
-   }
+  }
 
   private _buildSmsDetailsFormGroup(): void {
     this.smsDetailsFormGroup = this._formBuilder.group({
