@@ -350,12 +350,15 @@ export class HomePage implements AfterViewInit, OnDestroy, OnInit {
     if (navigator.share) {
       let shareOptions: any = undefined;
       if (this.readQRCodeIsURL(this.scanResult)) {
+        const removedURLProtocol = this.scanResult.replace(/(^\w+:|^)\/\//, '');
         shareOptions = {
-          url: this.scanResult
+          url: this.scanResult,
+          text: 'Check out ' + removedURLProtocol,
+          title: removedURLProtocol
         };
       } else {
         if (this.scanResult?.trim()?.length) {
-          shareOptions['title'] = this.scanResult;
+          shareOptions = { title: this.scanResult, text:  this.scanResult};
         }
       }
 
