@@ -50,8 +50,8 @@ export class SmsQrCodeComponent implements OnInit {
       return false;
     }
 
-    this.valueForQrCode = 'SMSTO:' + this.smsDetailsFormGroup?.get('phoneNumber')?.value?.trim() +
-      ':' + this.smsDetailsFormGroup?.get('message')?.value()?.trim();
+    this.valueForQrCode = 'SMSTO:' + this.smsDetailsFormGroup?.value?.phoneNumber.trim() +
+      ':' + this.smsDetailsFormGroup?.value?.message.trim();
 
     this.showQrCode = true;
   }
