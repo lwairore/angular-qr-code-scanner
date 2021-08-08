@@ -25,4 +25,8 @@ export class SmsQrCodeComponent implements OnInit {
     });
   }
 
+  get errorControl() {
+    return this.smsDetailsFormGroup?.controls;
+  }
+
 }
