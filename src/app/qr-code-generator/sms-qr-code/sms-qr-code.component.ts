@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-sms-qr-code',
@@ -9,7 +9,9 @@ import { FormGroup } from '@angular/forms';
 export class SmsQrCodeComponent implements OnInit {
   smsDetailsFormGroup: FormGroup | undefined;
 
-  constructor() { }
+  constructor(
+    private _formBuilder: FormBuilder
+  ) { }
 
   ngOnInit() { }
 
