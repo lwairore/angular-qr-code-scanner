@@ -10,6 +10,7 @@ import { QrCodeGeneratorPage } from './qr-code-generator.page';
 import { SmsQrCodeComponent } from './sms-qr-code/sms-qr-code.component';
 import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 import { ContactComponent } from './contact/contact.component';
+import { CreateUrlQrCodeComponent } from './create-url-qr-code/create-url-qr-code.component';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { ContactComponent } from './contact/contact.component';
     QrCodeGeneratorPage,
     SmsQrCodeComponent,
     ContactComponent,
+    CreateUrlQrCodeComponent,
   ]
 })
 export class QrCodeGeneratorPageModule { }
