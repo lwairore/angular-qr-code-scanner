@@ -9,3 +9,8 @@ The [jsQR](https://github.com/cozmo/jsQR) package is used to read the image data
 [https://qr-code-skanner.web.app/](https://qr-code-skanner.web.app/)
 
 ![This image displays Angular QR Code Scanner App in scanning a QR code](src/assets/demo/ionqrcodescannerdemo.gif)
+
+# Built with
+- [Ionic](https://ionicframework.com/)
+- [Angular](https://angular.io/)
+- [jsQR](https://github.com/cozmo/jsQR)
